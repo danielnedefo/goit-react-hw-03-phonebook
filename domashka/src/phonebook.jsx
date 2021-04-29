@@ -13,7 +13,20 @@ class Phonebook extends Component {
   ],
   filter: '',
   }
-
+  componentDidMount() {
+    const contact = localStorage.getItem('contacts')
+    const newContacts = JSON.parse(contact)
+    this.setState(({ contacts }) => {
+      return {
+        contacts:newContacts
+      }
+    })
+  }
+  componentDidUpdate(prevProps,prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts',JSON.stringify(this.state.contacts))
+    }
+  }
   changeFilter = ({target}) => {
     this.setState({ filter: target.value })
   }
@@ -36,6 +49,7 @@ class Phonebook extends Component {
         contacts: newContacts
       }
     })
+    
   }
   
   deleteContact = (idx) => {
